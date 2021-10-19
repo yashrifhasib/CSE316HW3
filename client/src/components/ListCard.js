@@ -13,7 +13,11 @@ function ListCard(props) {
     const [ editActive, setEditActive ] = useState(false);
     const [ text, setText ] = useState("");
     store.history = useHistory();
-    const { idNamePair, selected } = props;
+    const { idNamePair, selected, newListId } = props;
+
+    /*if (newListId !== "") {
+        toggleEdit();
+    }*/
 
     function handleLoadList(event) {
         if (!event.target.disabled) {

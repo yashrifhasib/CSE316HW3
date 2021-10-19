@@ -26,10 +26,11 @@ function Top5Item(props) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("item-".length).slice(5, 6);
             id = parseInt(id);
+            let oldname = store.currentList.items[id - 1];
             store.currentList.items[id - 1] = newName;
-            store.updateCurrentList()
             toggleEdit();
-
+            store.addChangeItemTransaction(id - 1, oldname, newName);
+            store.updateCurrentList();
         }
     }
 
