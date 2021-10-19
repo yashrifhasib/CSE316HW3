@@ -25,14 +25,12 @@ const ListSelector = () => {
                 key={pair._id}
                 idNamePair={pair}
                 selected={false}
-                dModal={DeleteModal}
             />
         ))
     }
 
     function handleCreateList(ev) {
         store.createNewList();
-        
     }
 
     return (

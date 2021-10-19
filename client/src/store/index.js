@@ -108,6 +108,17 @@ export const useGlobalStore = () => {
                     listMarkedForDeletion: null
                 });
             }
+
+            case GlobalStoreActionType.DELETE_LIST: {
+                return setStore({
+                    idNamePairs: null,
+                    currentList: null,
+                    newListCounter: store.newListCounter - 1,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                });
+            }
             default:
                 return store;
         }
@@ -169,6 +180,7 @@ export const useGlobalStore = () => {
                                         top5List: top5List
                                     }
                                 });
+                                store.setCurrentList(top5List._id);
                             }
                         }
                         getListPairs(top5List);
@@ -179,7 +191,7 @@ export const useGlobalStore = () => {
         }
         let newName = "Untitled" + store.newListCounter;
         let payload = "";
-        payload = {"name": newName, "items": ["", "", "", "", ""]}
+        payload = {"name": newName, "items": ["", "", "", "", ""]};
         asyncCreateNewList(payload);
     }
 
@@ -189,6 +201,10 @@ export const useGlobalStore = () => {
             type: GlobalStoreActionType.CLOSE_CURRENT_LIST,
             payload: {}
         });
+    }
+
+    store.deleteMarkedList = function(id) {
+
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
