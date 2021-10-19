@@ -9,6 +9,7 @@ import DeleteModal from './DeleteModal'
     @author McKilla Gorilla
 */
 const ListSelector = () => {
+
     const { store } = useContext(GlobalStoreContext);
     store.history = useHistory();
 
@@ -17,15 +18,22 @@ const ListSelector = () => {
     }, []);
 
     let listCard = "";
+    console.log(store.idNamePairs);
     if (store) {
         listCard = store.idNamePairs.map((pair) => (
             <ListCard
                 key={pair._id}
                 idNamePair={pair}
                 selected={false}
+                dModal={DeleteModal}
             />
         ))
     }
+
+    function handleCreateList(ev) {
+        store.createNewList();
+    }
+
     return (
         <div id="top5-list-selector">
             <div id="list-selector-heading">
@@ -33,6 +41,7 @@ const ListSelector = () => {
                     type="button"
                     id="add-list-button"
                     className="top5-button"
+                    onClick={handleCreateList}
                     value="+" />
                 Your Lists
             </div>

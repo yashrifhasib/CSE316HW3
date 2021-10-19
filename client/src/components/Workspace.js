@@ -14,6 +14,8 @@ function Workspace() {
 
     let editItems = "";
     if (store.currentList) {
+        let listId = store.currentList;
+        //console.log(listId);        
         editItems = 
             <div id="edit-items">
                 {
@@ -22,7 +24,8 @@ function Workspace() {
                             id={'top5-item-' + (index+1)}
                             key={'top5-item-' + (index+1)}
                             text={item}
-                            index={index} 
+                            index={index}
+                            listId={listId}
                         />
                     ))
                 }

@@ -9,6 +9,29 @@ import { GlobalStoreContext } from '../store'
 function Top5Item(props) {
     const { store } = useContext(GlobalStoreContext);
     const [draggedTo, setDraggedTo] = useState(0);
+    const [ editActive, setEditActive ] = useState(false);
+
+    function handleEdit(event) {
+        event.stopPropagation();
+        toggleEdit();
+    }
+
+    function toggleEdit() {
+        let newActive = !editActive;
+        setEditActive(newActive);
+    }
+
+    function handleKeyPress(event) {
+        let newName = event.target.value;
+        if (event.code === "Enter") {
+            let id = event.target.id.substring("item-".length).slice(5, 6);
+            id = parseInt(id);
+            store.currentList.items[id - 1] = newName;
+            store.updateCurrentList()
+            toggleEdit();
+
+        }
+    }
 
     function handleDragStart(event) {
         event.dataTransfer.setData("item", event.target.id);
@@ -46,7 +69,9 @@ function Top5Item(props) {
     if (draggedTo) {
         itemClass = "top5-item-dragged-to";
     }
-    return (
+
+
+    let listElement = (
         <div
             id={'item-' + (index + 1)}
             className={itemClass}
@@ -61,10 +86,24 @@ function Top5Item(props) {
                 type="button"
                 id={"edit-item-" + index + 1}
                 className="list-card-button"
+                onClick={handleEdit}
                 value={"\u270E"}
             />
             {props.text}
-        </div>)
+        </div>);
+
+    if (editActive) {
+        return listElement = (
+            <input
+                id={"edit-item-" + (index + 1)}
+                className='list-card'
+                type='text'
+                onKeyPress={handleKeyPress}
+                defaultValue={document.getElementById('item-' + (index + 1)).innerHTML.split(">")[1]}
+            />
+        )        
+    }
+    return listElement;
 }
 
 export default Top5Item;
