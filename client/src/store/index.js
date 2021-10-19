@@ -42,6 +42,17 @@ export const useGlobalStore = () => {
         const { type, payload } = action;
         switch (type) {
             // LIST UPDATE OF ITS NAME
+            case GlobalStoreActionType.CREATE_LIST: {
+                return setStore({
+                    idNamePairs: payload.idNamePairs,
+                    currentList: payload.top5list,
+                    newListCounter: store.newListCounter + 1,
+                    isListNameEditActive: true,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                });
+            }
+
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
@@ -135,6 +146,40 @@ export const useGlobalStore = () => {
             }
         }
         asyncChangeListName(id);
+    }
+
+    store.createNewList = function () {
+        async function asyncCreateNewList(payload) {
+            let response = await api.createTop5List(payload);
+            if (response.data.success) {
+                let top5List = response.data.top5List;
+                top5List.name = newName;
+                async function updateList(top5List) {
+                    response = await api.updateTop5ListById(top5List._id, top5List);
+                    if (response.data.success) {
+                        async function getListPairs(top5List) {
+                            response = await api.getTop5ListPairs();
+                            if (response.data.success) {
+                                let pairsArray = response.data.idNamePairs;
+                                storeReducer({
+                                    type: GlobalStoreActionType.CREATE_LIST,
+                                    payload: {
+                                        idNamePairs: pairsArray,
+                                        top5List: top5List
+                                    }
+                                });
+                            }
+                        }
+                        getListPairs(top5List);
+                    }
+                }
+                updateList(top5List);
+            }
+        }
+        let newName = "Untitled" + store.newListCounter;
+        let payload = "";
+        payload = {"name": newName, "items": ["", "", "", "", ""]}
+        asyncCreateNewList(payload);
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST

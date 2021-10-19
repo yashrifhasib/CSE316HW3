@@ -32,6 +32,7 @@ const ListSelector = () => {
 
     function handleCreateList(ev) {
         store.createNewList();
+        //store.isListNameEditActive = true;
     }
 
     return (
