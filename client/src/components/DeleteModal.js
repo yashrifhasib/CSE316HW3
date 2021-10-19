@@ -11,14 +11,25 @@ import { GlobalStoreContext } from '../store'
 */
 function DeleteModal() {
     const { store } = useContext(GlobalStoreContext);
-    let name = "";
-    console.log(store.currentList);
+
+
+    let listName = "";
+    let index = 0;
+    for (let i = 0; i < store.idNamePairs.length; i++) {
+        if (store.idNamePairs[i]._id === store.listMarkedForDeletion) {
+            index = store.listMarkedForDeletion;
+            break;
+        }
+    }
+    //listName = store.idNamePairs[index];
+    console.log(listName);
+    //listName = listName.name;
     if (store.currentList) {
-        name = store.currentList.name;
+        listName = store.currentList.name;
     }
     function handleDeleteList(event) {
         document.getElementById("delete-modal").setAttribute("class", "modal");
-        store.deleteMarkedList();
+        store.deleteMarkedList(store.listMarkedForDeletion);
     }
     function handleCloseModal(event) {
         document.getElementById("delete-modal").setAttribute("class", "modal");
@@ -30,7 +41,7 @@ function DeleteModal() {
             data-animation="slideInOutLeft">
             <div className="modal-dialog">
                 <header className="dialog-header">
-                    Delete the {name} Top 5 List?
+                    Delete the {listName} Top 5 List?
                 </header>
                 <div id="confirm-cancel-container">
                     <button

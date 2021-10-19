@@ -13,14 +13,9 @@ function ListCard(props) {
     const [ editActive, setEditActive ] = useState(false);
     const [ text, setText ] = useState("");
     store.history = useHistory();
-    const { idNamePair, selected, newListId } = props;
-
-    /*if (newListId !== "") {
-        toggleEdit();
-    }*/
+    const { idNamePair, selected } = props;
 
     function handleLoadList(event) {
-        console.log(event.details);
         if (!event.target.disabled) {
             let _id = event.target.id;
             if (_id.indexOf('list-card-text-') >= 0)
@@ -53,7 +48,15 @@ function ListCard(props) {
     }
 
     function handleDelete(event) {
+        event.stopPropagation();
         document.getElementById("delete-modal").setAttribute("class", "modal is-visible");
+        if (!event.target.disabled) {
+            let _id = event.target.id;
+            if (_id.indexOf('delete-list-') >= 0)
+                _id = ("" + _id).substring("delete-list-".length);
+
+            store.listMarkedForDeletion = _id;
+        }
     }
 
     function handleUpdateText(event) {

@@ -204,7 +204,17 @@ export const useGlobalStore = () => {
     }
 
     store.deleteMarkedList = function(id) {
-
+        async function asyncDeleteList(id) {
+            const response = await api.deleteTop5ListById(id);
+            if (response.data.success) {
+                let pairsArray = response.data.idNamePairs;
+                storeReducer({
+                    type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                    payload: pairsArray
+                });
+            }
+        }
+        asyncDeleteList(id);
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
