@@ -14,7 +14,7 @@ function DeleteModal() {
 
 
     let listName = "";
-    let index = 0;
+    /*let index = -1;
     for (let i = 0; i < store.idNamePairs.length; i++) {
         if (store.idNamePairs[i]._id === store.listMarkedForDeletion) {
             index = i;
@@ -25,10 +25,10 @@ function DeleteModal() {
     /*console.log(store.idNamePairs);
     listName = store.idNamePairs[index];
     console.log(listName);
-    //listName = listName.name;*/
+    //listName = listName.name;
     if (store.currentList) {
         listName = store.currentList.name;
-    }
+    }*/
     function handleDeleteList(event) {
         document.getElementById("delete-modal").setAttribute("class", "modal");
         store.deleteMarkedList(store.listMarkedForDeletion);
