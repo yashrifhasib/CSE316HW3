@@ -57,7 +57,7 @@ export const useGlobalStore = () => {
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
-                    currentList: payload.top5List,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -193,6 +193,19 @@ export const useGlobalStore = () => {
         let payload = "";
         payload = {"name": newName, "items": ["", "", "", "", ""]};
         asyncCreateNewList(payload);
+    }
+
+    store.hasUndo = function () {
+        return tps.hasTransactionToUndo();
+    }
+
+    store.hasRedo = function () {
+        if (tps.hasTransactionToRedo()) {
+            document.getElementById("redo-button").setAttribute("class", "top5-button");
+        }
+        else {
+            document.getElementById("redo-button").setAttribute("class", "top5-button-disabled");
+        }
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
