@@ -14,16 +14,17 @@ function DeleteModal() {
 
 
     let listName = "";
-    let index = 0;
+    /*let index = 0;
     for (let i = 0; i < store.idNamePairs.length; i++) {
         if (store.idNamePairs[i]._id === store.listMarkedForDeletion) {
-            index = store.listMarkedForDeletion;
+            index = i;
             break;
         }
     }
-    //listName = store.idNamePairs[index];
+    console.log(store.idNamePairs);
+    listName = store.idNamePairs[index];
     console.log(listName);
-    //listName = listName.name;
+    //listName = listName.name;*/
     if (store.currentList) {
         listName = store.currentList.name;
     }
